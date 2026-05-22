@@ -17,7 +17,7 @@ export class LoginPage extends BasePage {
     }
 
     private get loginError() {
-        return $('role=alert');
+        return $('.alert.alert-error.alert-danger');
     }
 
     async open() {
