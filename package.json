@@ -1,0 +1,60 @@
+{
+    "name": "automation-test-store-e2e",
+    "version": "1.0.0",
+    "description": "End-to-end tests for Automation Test Store",
+    "type": "module",
+    "scripts": {
+        "test": "wdio run wdio.conf.ts",
+        "test:login": "wdio run wdio.conf.ts --spec features/specs/login.feature",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "allure:generate": "node -e \"try{require('fs').cpSync('reports/allure-report/history','reports/allure-results/history',{recursive:true})}catch(e){}\" && allure generate reports/allure-results --clean -o reports/allure-report",
+        "allure:generate:clean": "allure generate reports/allure-results --clean -o reports/allure-report",
+        "allure:open": "allure open reports/allure-report",
+        "allure:report": "npm run allure:generate && npm run allure:open",
+        "clean": "rimraf reports/screenshots reports/json reports/allure-results reports/allure-report",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        "*.{ts,js}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,md,yml,yaml}": [
+            "prettier --write"
+        ]
+    },
+    "devDependencies": {
+        "@cucumber/cucumber": "12.6.0",
+        "@types/node": "^20.0.0",
+        "@typescript-eslint/eslint-plugin": "^8.0.0",
+        "@typescript-eslint/parser": "^8.0.0",
+        "@wdio/allure-reporter": "^9.27.1",
+        "@wdio/cli": "9.24.0",
+        "@wdio/cucumber-framework": "9.24.0",
+        "@wdio/devtools-service": "10.2.0",
+        "@wdio/globals": "^9.23.0",
+        "@wdio/local-runner": "9.24.0",
+        "@wdio/spec-reporter": "9.24.0",
+        "allure-commandline": "^2.41.0",
+        "allure-js-commons": "^3.0.0",
+        "dotenv": "^17.4.2",
+        "eslint": "^9.0.0",
+        "eslint-config-prettier": "^9.0.0",
+        "expect-webdriverio": "5.6.4",
+        "globals": "^15.0.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^17.0.5",
+        "prettier": "^3.0.0",
+        "rimraf": "6.1.2",
+        "ts-node": "10.9.2",
+        "typescript": "5.9.3",
+        "typescript-eslint": "^8.0.0"
+    },
+    "engines": {
+        "node": ">=20"
+    }
+}

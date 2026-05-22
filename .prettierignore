@@ -1,0 +1,7 @@
+node_modules
+dist
+reports
+allure-report
+allure-results
+package-lock.json
+*.feature
