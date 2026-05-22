@@ -1,0 +1,71 @@
+name: E2E Tests with WebdriverIO
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      TEST_USER_USERNAME: ${{ secrets.TEST_USER_USERNAME }}
+      TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Run WebdriverIO tests
+        run: npm test
+
+      - name: Generate Allure report
+        if: always()
+        run: npm run allure:generate
+        continue-on-error: true
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+          if-no-files-found: ignore
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report
+          if-no-files-found: ignore
+
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots
+          path: reports/screenshots
+          if-no-files-found: ignore
