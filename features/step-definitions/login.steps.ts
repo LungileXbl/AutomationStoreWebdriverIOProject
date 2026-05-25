@@ -40,21 +40,21 @@ When('I attempt to log in with invalid credentials', async () => {
 
 Then('I should be navigated to the login page', async () => {
     const isLoginPage = await homePage.isOnLoginPage();
-    expectStep(`Expect navigation to login page (got: ${isLoginPage})`, () =>
+    await expectStep(`Expect navigation to login page (got: ${isLoginPage})`, () =>
         expect(isLoginPage).toBe(true)
     );
 });
 
 Then('I should be logged in successfully', async () => {
     const isLoggedIn = await loginPage.isLoginSuccessful();
-    expectStep(`Expect login to be successful (got: ${isLoggedIn})`, () =>
+    await expectStep(`Expect login to be successful (got: ${isLoggedIn})`, () =>
         expect(isLoggedIn).toBe(true)
     );
 });
 
 Then('I should see a login error message', async () => {
     const isErrorVisible = await loginPage.isLoginErrorVisible();
-    expectStep(`Expect login error to be visible (got: ${isErrorVisible})`, () =>
+    await expectStep(`Expect login error to be visible (got: ${isErrorVisible})`, () =>
         expect(isErrorVisible).toBe(true)
     );
 });
